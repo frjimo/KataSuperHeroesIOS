@@ -23,6 +23,24 @@ class SuperHeroesViewControllerTests: AcceptanceTestCase {
 
         tester().waitForViewWithAccessibilityLabel("¯\\_(ツ)_/¯")
     }
+    
+    func testDoesNotShowEmptyCaseIfThereAreSuperHeroes() {
+        givenThereAreSomeSuperHeroes()
+        
+        openSuperHeroesViewController()
+        
+        tester().waitForAbsenceOfViewWithAccessibilityLabel("¯\\_(ツ)_/¯")
+    }
+    
+    func testShowsTheNumberOfSuperHeroes(){
+        givenThereAreSomeSuperHeroes()
+        
+        openSuperHeroesViewController()
+        
+        let tableView = tester().waitForViewWithAccessibilityLabel("SuperHeroesTableView") as! UITableView
+        
+        expect(tableView.numberOfRowsInSection(0)).to(equal(10))
+    }
 
     private func givenThereAreNoSuperHeroes() {
         givenThereAreSomeSuperHeroes(0)
