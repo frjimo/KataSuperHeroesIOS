@@ -41,6 +41,45 @@ class SuperHeroesViewControllerTests: AcceptanceTestCase {
         
         expect(tableView.numberOfRowsInSection(0)).to(equal(10))
     }
+    
+    func testShowSuperHeroesName () {
+        givenThereAreSomeSuperHeroes(10)
+        
+        openSuperHeroesViewController()
+        
+        for i in 0..<10 {
+            let cell = tester().waitForViewWithAccessibilityLabel("SuperHero - \(i)") as! SuperHeroTableViewCell
+            expect(cell.nameLabel.text).to(equal("SuperHero - \(i)"))
+        }
+    }
+    
+    func testTapOnAvengerWillNavigateToAvengerDetail () {
+//        givenThereAreSomeSuperHeroes()
+//        
+//        openSuperHeroesViewController()
+//        
+//        let tableView = tester().waitForViewWithAccessibilityLabel("SuperHeroesTableView") as! UITableView
+//        
+//        for i in 0..<10 {
+//        let index = i
+//        
+//        let name = "SuperHero - \(index)"
+//
+//        tester().tapRowAtIndexPath(NSIndexPath(forRow:index, inSection:0), inTableView: tableView)
+//        tester().waitForViewWithAccessibilityLabel("Name - \(name)")
+//        }
+        
+        let superHeroIndex = 1
+        let superHeroes = givenThereAreSomeSuperHeroes()
+        let superHero = superHeroes[superHeroIndex]
+        openSuperHeroesViewController()
+        
+        tester().waitForViewWithAccessibilityLabel(superHero.name)
+        tester().tapRowAtIndexPath(NSIndexPath(forRow: superHeroIndex, inSection: 0),
+                                   inTableViewWithAccessibilityIdentifier: "SuperHeroesTableView")
+        
+        tester().waitForViewWithAccessibilityLabel(superHero.name)
+    }
 
     private func givenThereAreNoSuperHeroes() {
         givenThereAreSomeSuperHeroes(0)
